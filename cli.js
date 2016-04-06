@@ -29,14 +29,14 @@ function runScripts(scripts, files) {
 }
 
 var cli = meow([
-  'Usage',
-  '  $ ava-codemods',
-  '',
-  'Options',
-  '  --force, -f    Bypass safety checks and forcibly run codemods',
-  '',
-  'Available upgrades',
-  '  - 0.13.x → 0.14.x'
+	'Usage',
+	'  $ ava-codemods',
+	'',
+	'Options',
+	'  --force, -f    Bypass safety checks and forcibly run codemods',
+	'',
+	'Available upgrades',
+	'  - 0.13.x → 0.14.x'
 ], {
 	boolean: ['force'],
 	alias: {
