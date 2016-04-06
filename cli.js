@@ -91,7 +91,9 @@ var questions = [{
 	message: 'On which files should the codemods be applied?',
 	when: !cli.input.length,
 	filter: function (files) {
-		return files.trim().split(/\s+/);
+		return files.trim().split(/\s+/).filter(function (v) {
+			return v;
+		});
 	}
 }];
 
