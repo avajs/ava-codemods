@@ -1,3 +1,4 @@
+'use strict';
 var path = require('path');
 var semver = require('semver');
 var uniq = require('lodash.uniq');
@@ -7,6 +8,7 @@ function sortByVersion(a, b) {
 	if (a.version === b.version) {
 		return 0;
 	}
+
 	return semver.lt(a.version, b.version) ? -1 : +1;
 }
 
@@ -23,6 +25,7 @@ function getVersions(codemods) {
 		name: 'latest',
 		value: '9999.9999.9999'
 	};
+
 	return [firstVersion].concat(versionsFromCodemods).concat(lastVersion);
 }
 

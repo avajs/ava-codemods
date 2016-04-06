@@ -2,7 +2,8 @@
 
 > Codemods for AVA
 
-Codemods to simplify upgrading [AVA](https://github.com/sindresorhus/ava) versions.
+Codemods to simplify upgrading [AVA](https://ava.li) versions.
+
 
 ## Install
 
@@ -14,7 +15,9 @@ $ npm install --global ava-codemods
 ## Usage
 
 Simply run `ava-codemods` in your terminal and answer a few questions.
+
 Ensure you have a backup of your tests or commit the latest changes before running this.
+
 
 ## Supported codemods
 
@@ -24,6 +27,7 @@ Ensure you have a backup of your tests or commit the latest changes before runni
 - Renaming `t.notOk()` to `t.falsy()`
 - Renaming `t.same()` to `t.deepEqual()`
 - Renaming `t.notSame()` to `t.notDeepEqual()`
+
 
 ## License
 

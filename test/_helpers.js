@@ -1,3 +1,4 @@
+'use strict';
 var jscodeshift = require('jscodeshift');
 
 function noop() {}
@@ -8,6 +9,7 @@ function fileInfo(path, source) {
 		source = path;
 		path = 'test.js';
 	}
+
 	return {
 		path: path,
 		source: source

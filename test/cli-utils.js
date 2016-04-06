@@ -3,9 +3,7 @@ import test from 'ava';
 import {sortByVersion, getVersions, selectScripts} from '../cli-utils';
 
 function resolve(files) {
-	return files.map(function (file) {
-		return path.resolve(__dirname, '..', file);
-	});
+	return files.map(file => path.resolve(__dirname, '..', file));
 }
 
 test('sortByVersion', t => {
@@ -55,7 +53,7 @@ test('getVersions', t => {
 });
 
 test('selectScripts', t => {
-	var codemods = [{
+	const codemods = [{
 		version: '0.14.0',
 		scripts: [
 			'lib/ok-to-truthy.js',

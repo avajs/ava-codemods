@@ -1,12 +1,12 @@
-import ava from 'ava';
-import {wrapPlugin} from './_helpers';
+import test from 'ava';
 import plugin from '../lib/ok-to-truthy';
+import {wrapPlugin} from './_helpers';
 
 const wrapped = wrapPlugin(plugin);
 
-function test(input, expected) {
-	ava(input, t => t.is(wrapped(input), expected));
+function tester(input, expected) {
+	test(input, t => t.is(wrapped(input), expected));
 }
 
-test('t.ok(foo, bar)', 't.truthy(foo, bar)');
-test('t.notOk(foo, bar)', 't.falsy(foo, bar)');
+tester('t.ok(foo, bar)', 't.truthy(foo, bar)');
+tester('t.notOk(foo, bar)', 't.falsy(foo, bar)');
