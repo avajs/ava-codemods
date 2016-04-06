@@ -11,7 +11,7 @@ var codemods = require('./codemods.json');
 
 function runScripts(scripts, files) {
 	var spawnOptions = {
-		env: assign({}, process.env, {PATH: npmRunPath()}),
+		env: assign({}, process.env, {PATH: npmRunPath({cwd: __dirname})}),
 		stdio: 'inherit'
 	};
 
