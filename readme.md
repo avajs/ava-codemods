@@ -2,44 +2,27 @@
 
 > Codemods for AVA
 
-Status is pre-alpha. Recommended only for exploratory use.
+Codemods to simplify upgrading [AVA](https://github.com/sindresorhus/ava) versions.
 
 ## Install
 
 ```
-$ npm install --save ava-codemods
+$ npm install --global ava-codemods
 ```
 
 
 ## Usage
 
-```js
-const avaCodemods = require('ava-codemods');
+Simply run `ava-codemods` in your terminal and answer a few questions.
 
-avaCodemods('unicorns');
-//=> 'unicorns & rainbows'
-```
+## Supported codemods
 
+### Upgrading to 0.14
 
-## API
-
-### avaCodemods(input, [options])
-
-#### input
-
-Type: `string`
-
-Lorem ipsum.
-
-#### options
-
-##### foo
-
-Type: `boolean`<br>
-Default: `false`
-
-Lorem ipsum.
-
+- Renaming `t.ok()` to `t.truthy()`
+- Renaming `t.notOk()` to `t.falsy()`
+- Renaming `t.same()` to `t.deepEqual()`
+- Renaming `t.notSame()` to `t.notDeepEqual()`
 
 ## License
 
