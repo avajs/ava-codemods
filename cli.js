@@ -1,29 +1,40 @@
 #!/usr/bin/env node
 'use strict';
 
-var path = require('path');
 var childProcess = require('child_process');
+var meow = require('meow');
 var globby = require('globby');
 var inquirer = require('inquirer');
 var assign = require('lodash.assign');
+var npmRunPath = require('npm-run-path');
 var utils = require('./cli-utils');
 var codemods = require('./codemods.json');
 
 function runScripts(scripts, files) {
-	var binPath = require.resolve('jscodeshift/bin/jscodeshift.sh');
+	// var binPath = require.resolve('jscodeshift/bin/jscodeshift.sh');
 	var spawnOptions = {
-		env: assign({}, process.env, {PATH: path.resolve('node_modules/.bin') + ':' + process.env.PATH}),
+		env: assign({}, process.env, {PATH: npmRunPath()}),
 		stdio: 'inherit'
 	};
 
 	var result;
 	scripts.forEach(function (script) {
-		result = childProcess.spawnSync(binPath, ['-t', script].concat(files.split(' ')), spawnOptions);
+		result = childProcess.spawnSync('jscodeshift', ['-t', script].concat(files), spawnOptions);
 		if (result.error) {
 			throw result.error;
 		}
 	});
 }
+
+meow(`
+		Usage
+			$ ava-codemods
+
+		Ensure you have a backup of your tests or commit the latest changes before running this.
+
+		Upgrades available:
+			- 0.13.x to 0.14.x
+`);
 
 codemods.sort(utils.sortByVersion);
 
@@ -45,6 +56,7 @@ var questions = [{
 	message: 'On which files should the codemods be applied?'
 }];
 
+console.log('Ensure you have a backup of your tests or commit the latest changes before continuing.');
 inquirer.prompt(questions, function (answers) {
 	if (!answers.files) {
 		return;

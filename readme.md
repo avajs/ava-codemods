@@ -14,6 +14,7 @@ $ npm install --global ava-codemods
 ## Usage
 
 Simply run `ava-codemods` in your terminal and answer a few questions.
+Ensure you have a backup of your tests or commit the latest changes before running this.
 
 ## Supported codemods
 
