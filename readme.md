@@ -4,6 +4,9 @@
 
 Codemods to simplify upgrading [AVA](https://ava.li) versions.
 
+Codemods are small programs that help you automate changes to your codebase. Think of them as search and replace on steroids.
+
+This module contains a set of codemods that enable you to upgrade your code between various AVA releases. It is maintained by the AVA team, and will be updated anytime we introduce breaking API changes. We plan to eventually introduce codemods that allow you to switch from other popular Runners like `mocha` and `tap`.
 
 ## Install
 
@@ -14,7 +17,22 @@ $ npm install --global ava-codemods
 
 ## Usage
 
-Simply run `ava-codemods` in your terminal and answer a few questions.
+```
+$ ava-codemods --help
+
+  Codemods to simplify upgrading AVA versions
+
+  Usage
+    $ ava-codemods [<file|glob> ...]
+
+  Options
+    --force, -f    Bypass safety checks and forcibly run codemods
+
+  Available upgrades
+    - 0.13.x → 0.14.x
+```
+
+Simply run `ava-codemods` in your terminal and answer a few questions. You can pass a filename directly to the CLI. If you do not, you will be prompted for one.
 
 Ensure you have a backup of your tests or commit the latest changes before running this.
 
