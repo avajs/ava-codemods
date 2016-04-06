@@ -30,7 +30,7 @@ function runScripts(scripts, files) {
 
 var cli = meow([
 	'Usage',
-	'  $ ava-codemods',
+	'  $ ava-codemods [<file|glob> ...]',
 	'',
 	'Options',
 	'  --force, -f    Bypass safety checks and forcibly run codemods',
@@ -39,6 +39,7 @@ var cli = meow([
 	'  - 0.13.x → 0.14.x'
 ], {
 	boolean: ['force'],
+	string: ['_'],
 	alias: {
 		f: 'force',
 		h: 'help'
@@ -84,15 +85,20 @@ var questions = [{
 }, {
 	type: 'input',
 	name: 'files',
-	message: 'On which files should the codemods be applied?'
+	message: 'On which files should the codemods be applied?',
+	when: !cli.input.length,
+	filter: function (files) {
+		return files.trim().split(/\s+/);
+	}
 }];
 
 inquirer.prompt(questions, function (answers) {
-	if (!answers.files) {
+	var files = answers.files || cli.input;
+	if (!files.length) {
 		return;
 	}
 
 	var scripts = utils.selectScripts(codemods, answers.currentVersion, answers.nextVersion);
 
-	runScripts(scripts, globby.sync(answers.files.split(/\s+/)));
+	runScripts(scripts, globby.sync(files));
 });
