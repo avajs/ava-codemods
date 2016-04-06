@@ -11,7 +11,6 @@ var utils = require('./cli-utils');
 var codemods = require('./codemods.json');
 
 function runScripts(scripts, files) {
-	// var binPath = require.resolve('jscodeshift/bin/jscodeshift.sh');
 	var spawnOptions = {
 		env: assign({}, process.env, {PATH: npmRunPath()}),
 		stdio: 'inherit'
@@ -30,10 +29,8 @@ meow(`
 		Usage
 			$ ava-codemods
 
-		Ensure you have a backup of your tests or commit the latest changes before running this.
-
-		Upgrades available:
-			- 0.13.x to 0.14.x
+		Available upgrades
+			- 0.13.x → 0.14.x
 `);
 
 codemods.sort(utils.sortByVersion);
