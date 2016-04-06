@@ -1,0 +1,9 @@
+[
+	{
+		"version": "0.14.0",
+		"scripts": [
+			"lib/ok-to-truthy.js",
+			"lib/same-to-deep-equal.js"
+		]
+	}
+]
