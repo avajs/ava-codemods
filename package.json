@@ -33,12 +33,14 @@
   "dependencies": {
     "globby": "^4.0.0",
     "inquirer": "^0.12.0",
+    "is-git-clean": "^1.0.0",
     "jscodeshift": "^0.3.19",
     "lodash.assign": "^4.0.7",
     "lodash.flatten": "^4.1.1",
     "lodash.uniq": "^4.2.1",
     "meow": "^3.7.0",
     "npm-run-path": "^1.0.0",
+    "pinkie-promise": "^2.0.0",
     "semver": "^5.1.0"
   },
   "devDependencies": {
