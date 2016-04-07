@@ -1,12 +1,13 @@
 # ava-codemods [![Build Status](https://travis-ci.org/jamestalmage/ava-codemods.svg?branch=master)](https://travis-ci.org/jamestalmage/ava-codemods)
 
-> Codemods for AVA
+> Codemods for [AVA](https://ava.li) that simplifies upgrading to newer versions
 
-Codemods to simplify upgrading [AVA](https://ava.li) versions.
+<img src="screenshot.gif" width="440" align="right">
 
 Codemods are small programs that help you automate changes to your codebase. Think of them as search and replace on steroids.
 
-This module contains a set of codemods that enable you to upgrade your code between various AVA releases. It is maintained by the AVA team, and will be updated anytime we introduce breaking API changes. We plan to eventually introduce codemods that allow you to switch from other popular Runners like `mocha` and `tap`.
+This module contains a set of codemods that enable you to upgrade your code between various AVA releases. It is maintained by the AVA team, and will be updated anytime we introduce breaking API changes. We plan to eventually introduce codemods that allow you to switch from other popular test runners like `mocha` and `tap`.
+
 
 ## Install
 
