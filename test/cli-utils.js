@@ -16,7 +16,7 @@ test('sortByVersion', t => {
 		{version: '1.2.0'}
 	];
 
-	t.same(array.sort(sortByVersion), [
+	t.deepEqual(array.sort(sortByVersion), [
 		{version: '0.0.1'},
 		{version: '1.0.0'},
 		{version: '1.0.1'},
@@ -36,7 +36,7 @@ test('getVersions', t => {
 		{version: '1.2.0'}
 	];
 
-	t.same(getVersions(array), [{
+	t.deepEqual(getVersions(array), [{
 		name: 'older than 0.0.1',
 		value: '0.0.0'
 	},
@@ -76,20 +76,20 @@ test('selectScripts', t => {
 		]
 	}];
 
-	t.same(selectScripts(codemods, '0.14.0', '0.14.0'), []);
+	t.deepEqual(selectScripts(codemods, '0.14.0', '0.14.0'), []);
 
-	t.same(selectScripts(codemods, '0.14.0', '1.0.0'), resolve([
+	t.deepEqual(selectScripts(codemods, '0.14.0', '1.0.0'), resolve([
 		'lib/script-0.15.0.js',
 		'lib/script-1.0.0.js'
 	]));
 
-	t.same(selectScripts(codemods, '0.0.0', '0.15.0'), resolve([
+	t.deepEqual(selectScripts(codemods, '0.0.0', '0.15.0'), resolve([
 		'lib/ok-to-truthy.js',
 		'lib/same-to-deep-equal.js',
 		'lib/script-0.15.0.js'
 	]));
 
-	t.same(selectScripts(codemods, '0.0.0', '9999.9999.9999'), resolve([
+	t.deepEqual(selectScripts(codemods, '0.0.0', '9999.9999.9999'), resolve([
 		'lib/ok-to-truthy.js',
 		'lib/same-to-deep-equal.js',
 		'lib/script-0.15.0.js',
