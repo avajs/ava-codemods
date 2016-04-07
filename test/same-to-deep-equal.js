@@ -10,3 +10,12 @@ function tester(input, expected) {
 
 tester('t.same(foo, bar)', 't.deepEqual(foo, bar)');
 tester('t.notSame(foo, bar)', 't.notDeepEqual(foo, bar)');
+tester(`
+test(t => {
+		t.same(fn.sync('1.tmp', {cwd: t.context.tmp}), [path.join(t.context.tmp, '1.tmp')]);
+});
+`, `
+test(t => {
+		t.deepEqual(fn.sync('1.tmp', {cwd: t.context.tmp}), [path.join(t.context.tmp, '1.tmp')]);
+});
+`);
