@@ -31,6 +31,7 @@
     "transform"
   ],
   "dependencies": {
+    "arrify": "^1.0.1",
     "globby": "^4.0.0",
     "inquirer": "^0.12.0",
     "is-git-clean": "^1.0.0",
@@ -41,6 +42,7 @@
     "meow": "^3.7.0",
     "npm-run-path": "^1.0.0",
     "pinkie-promise": "^2.0.0",
+    "pkg-conf": "^1.1.2",
     "semver": "^5.1.0",
     "update-notifier": "^0.6.3"
   },

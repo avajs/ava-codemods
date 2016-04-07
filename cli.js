@@ -4,7 +4,9 @@ global.Promise = require('pinkie-promise');
 var childProcess = require('child_process');
 var meow = require('meow');
 var updateNotifier = require('update-notifier');
+var arrify = require('arrify');
 var globby = require('globby');
+var pkgConf = require('pkg-conf');
 var inquirer = require('inquirer');
 var assign = require('lodash.assign');
 var npmRunPath = require('npm-run-path');
@@ -75,6 +77,9 @@ codemods.sort(utils.sortByVersion);
 
 var versions = utils.getVersions(codemods);
 
+var avaConf = pkgConf.sync('ava');
+var defaultFiles = 'test.js test-*.js test/**/*.js';
+
 var questions = [{
 	type: 'list',
 	name: 'currentVersion',
@@ -89,9 +94,12 @@ var questions = [{
 	type: 'input',
 	name: 'files',
 	message: 'On which files should the codemods be applied?',
+	default: (avaConf.files && arrify(avaConf.files).join(' ')) || defaultFiles,
 	when: !cli.input.length,
 	filter: function (files) {
-		return files.trim().split(/\s+/);
+		return files.trim().split(/\s+/).filter(function (v) {
+			return v;
+		});
 	}
 }];
 
