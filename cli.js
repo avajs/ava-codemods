@@ -3,6 +3,7 @@
 global.Promise = require('pinkie-promise');
 var childProcess = require('child_process');
 var meow = require('meow');
+var updateNotifier = require('update-notifier');
 var globby = require('globby');
 var inquirer = require('inquirer');
 var assign = require('lodash.assign');
@@ -45,6 +46,8 @@ var cli = meow([
 		h: 'help'
 	}
 });
+
+updateNotifier({pkg: cli.pkg}).notify();
 
 var clean = false;
 var errorMessage = 'Unable to determine if git directory is clean';
