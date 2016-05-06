@@ -22,6 +22,16 @@
     "codemods.json",
     "lib"
   ],
+  "ava": {
+    "require": [
+      "babel/register"
+    ]
+  },
+  "babel": {
+    "only": [
+      "lib/**"
+    ]
+  },
   "keywords": [
     "codemod",
     "ava",
@@ -48,6 +58,7 @@
   },
   "devDependencies": {
     "ava": "^0.14.0",
+    "babel": "^5.8.38",
     "xo": "^0.13.0"
   }
 }
