@@ -15,3 +15,5 @@ tester('before(\'blah\', () => doSomething())', 'test.before(\'blah\', () => doS
 tester('beforeEach(() => doSomething())', 'test.beforeEach(() => doSomething())');
 tester('after(() => doSomething())', 'test.after(() => doSomething())');
 tester('afterEach(() => doSomething())', 'test.afterEach(() => doSomething())');
+
+tester('it(function () { doSomething(); })', 'test(function () { doSomething(); })');

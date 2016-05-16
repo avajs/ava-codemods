@@ -14,7 +14,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "xo && ava"
+    "test": "xo && nyc ava"
   },
   "files": [
     "cli.js",
@@ -30,7 +30,8 @@
   "babel": {
     "only": [
       "lib/**"
-    ]
+    ],
+    "sourceMaps": "inline"
   },
   "keywords": [
     "codemod",
@@ -59,6 +60,7 @@
   "devDependencies": {
     "ava": "^0.14.0",
     "babel": "^5.8.38",
+    "nyc": "^6.4.4",
     "xo": "^0.13.0"
   }
 }
