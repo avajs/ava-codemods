@@ -1,4 +1,4 @@
-# ava-codemods [![Build Status](https://travis-ci.org/jamestalmage/ava-codemods.svg?branch=master)](https://travis-ci.org/jamestalmage/ava-codemods)
+# ava-codemods [![Build Status](https://travis-ci.org/avajs/ava-codemods.svg?branch=master)](https://travis-ci.org/avajs/ava-codemods)
 
 > Codemods for [AVA](https://ava.li) that simplifies upgrading to newer versions
 
