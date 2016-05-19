@@ -105,6 +105,7 @@ var questions = [{
 
 inquirer.prompt(questions, function (answers) {
 	var files = answers.files || cli.input;
+
 	if (!files.length) {
 		return;
 	}

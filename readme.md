@@ -21,8 +21,6 @@ $ npm install --global ava-codemods
 ```
 $ ava-codemods --help
 
-  Codemods to simplify upgrading AVA versions
-
   Usage
     $ ava-codemods [<file|glob> ...]
 
@@ -40,7 +38,7 @@ Ensure you have a backup of your tests or commit the latest changes before runni
 
 ## Supported codemods
 
-### Upgrading to 0.14
+### Upgrading to 0.14.x
 
 - Renaming `t.ok()` to `t.truthy()`
 - Renaming `t.notOk()` to `t.falsy()`
@@ -50,4 +48,4 @@ Ensure you have a backup of your tests or commit the latest changes before runni
 
 ## License
 
-MIT © [James Talmage](http://github.com/jamestalmage)
+MIT © [James Talmage](https://github.com/jamestalmage)
