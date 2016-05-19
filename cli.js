@@ -78,7 +78,7 @@ codemods.sort(utils.sortByVersion);
 var versions = utils.getVersions(codemods);
 
 var avaConf = pkgConf.sync('ava');
-var defaultFiles = 'test.js test-*.js test/**/*.js';
+var defaultFiles = 'test.js test-*.js test/**/*.js **/__tests__/**/*.js **/*.test.js';
 
 var questions = [{
 	type: 'list',
