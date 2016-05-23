@@ -48,7 +48,19 @@
   },
   "devDependencies": {
     "ava": "^0.14.0",
+    "babel": "^5.8.38",
     "xo": "^0.15.1"
+  },
+  "ava": {
+    "require": [
+      "babel/register"
+    ]
+  },
+  "babel": {
+    "only": [
+      "lib/**"
+    ],
+    "sourceMaps": "inline"
   },
   "xo": {
     "esnext": true,
