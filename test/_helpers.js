@@ -1,5 +1,5 @@
 'use strict';
-var jscodeshift = require('jscodeshift');
+const jscodeshift = require('jscodeshift');
 
 function noop() {}
 
@@ -11,15 +11,15 @@ function fileInfo(path, source) {
 	}
 
 	return {
-		path: path,
-		source: source
+		path,
+		source
 	};
 }
 
 // simulate the jscodeshift api
 function api() {
 	return {
-		jscodeshift: jscodeshift,
+		jscodeshift,
 		stats: noop
 	};
 }

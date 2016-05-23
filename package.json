@@ -51,6 +51,7 @@
     "xo": "^0.15.1"
   },
   "xo": {
+    "esnext": true,
     "rules": {
       "xo/filename-case": 0
     }

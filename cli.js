@@ -1,28 +1,28 @@
 #!/usr/bin/env node
 'use strict';
 global.Promise = require('pinkie-promise');
-var childProcess = require('child_process');
-var meow = require('meow');
-var updateNotifier = require('update-notifier');
-var arrify = require('arrify');
-var globby = require('globby');
-var pkgConf = require('pkg-conf');
-var inquirer = require('inquirer');
-var assign = require('lodash.assign');
-var npmRunPath = require('npm-run-path');
-var isGitClean = require('is-git-clean');
-var utils = require('./cli-utils');
-var codemods = require('./codemods.json');
+const childProcess = require('child_process');
+const meow = require('meow');
+const updateNotifier = require('update-notifier');
+const arrify = require('arrify');
+const globby = require('globby');
+const pkgConf = require('pkg-conf');
+const inquirer = require('inquirer');
+const assign = require('lodash.assign');
+const npmRunPath = require('npm-run-path');
+const isGitClean = require('is-git-clean');
+const utils = require('./cli-utils');
+const codemods = require('./codemods.json');
 
 function runScripts(scripts, files) {
-	var spawnOptions = {
+	const spawnOptions = {
 		env: assign({}, process.env, {PATH: npmRunPath({cwd: __dirname})}),
 		stdio: 'inherit'
 	};
 
-	var result;
+	let result;
 
-	scripts.forEach(function (script) {
+	scripts.forEach(script => {
 		result = childProcess.spawnSync('jscodeshift', ['-t', script].concat(files), spawnOptions);
 
 		if (result.error) {
@@ -31,7 +31,7 @@ function runScripts(scripts, files) {
 	});
 }
 
-var cli = meow([
+const cli = meow([
 	'Usage',
 	'  $ ava-codemods [<file|glob> ...]',
 	'',
@@ -51,22 +51,22 @@ var cli = meow([
 
 updateNotifier({pkg: cli.pkg}).notify();
 
-var clean = false;
-var errorMessage = 'Unable to determine if git directory is clean';
+let clean = false;
+let errorMessage = 'Unable to determine if git directory is clean';
 try {
 	clean = isGitClean.sync();
 	errorMessage = 'Git directory is not clean';
 } catch (e) {
 }
 
-var ENSURE_BACKUP_MESSAGE = 'Ensure you have a backup of your tests or commit the latest changes before continuing.';
+const ENSURE_BACKUP_MESSAGE = 'Ensure you have a backup of your tests or commit the latest changes before continuing.';
 
 if (!clean) {
 	if (cli.flags.force) {
-		console.log('WARNING: ' + errorMessage + '. Forcibly continuing.');
+		console.log(`WARNING: ${errorMessage}. Forcibly continuing.`);
 		console.log(ENSURE_BACKUP_MESSAGE);
 	} else {
-		console.log('ERROR: ' + errorMessage + '. Refusing to continue.');
+		console.log(`ERROR: ${errorMessage}. Refusing to continue.`);
 		console.log(ENSURE_BACKUP_MESSAGE);
 		console.log('You may use the --force flag to override this safety check.');
 		process.exit(1);
@@ -75,12 +75,12 @@ if (!clean) {
 
 codemods.sort(utils.sortByVersion);
 
-var versions = utils.getVersions(codemods);
+const versions = utils.getVersions(codemods);
 
-var avaConf = pkgConf.sync('ava');
-var defaultFiles = 'test.js test-*.js test/**/*.js **/__tests__/**/*.js **/*.test.js';
+const avaConf = pkgConf.sync('ava');
+const defaultFiles = 'test.js test-*.js test/**/*.js **/__tests__/**/*.js **/*.test.js';
 
-var questions = [{
+const questions = [{
 	type: 'list',
 	name: 'currentVersion',
 	message: 'What version of AVA are you currently using?',
@@ -96,21 +96,19 @@ var questions = [{
 	message: 'On which files should the codemods be applied?',
 	default: (avaConf.files && arrify(avaConf.files).join(' ')) || defaultFiles,
 	when: !cli.input.length,
-	filter: function (files) {
-		return files.trim().split(/\s+/).filter(function (v) {
-			return v;
-		});
+	filter: files => {
+		return files.trim().split(/\s+/).filter(v => v);
 	}
 }];
 
-inquirer.prompt(questions, function (answers) {
-	var files = answers.files || cli.input;
+inquirer.prompt(questions, answers => {
+	const files = answers.files || cli.input;
 
 	if (!files.length) {
 		return;
 	}
 
-	var scripts = utils.selectScripts(codemods, answers.currentVersion, answers.nextVersion);
+	const scripts = utils.selectScripts(codemods, answers.currentVersion, answers.nextVersion);
 
 	runScripts(scripts, globby.sync(files));
 });
