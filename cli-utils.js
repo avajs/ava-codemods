@@ -1,10 +1,9 @@
-'use strict';
 const path = require('path');
 const semver = require('semver');
 const uniq = require('lodash.uniq');
 const flatten = require('lodash.flatten');
 
-function sortByVersion(a, b) {
+export function sortByVersion(a, b) {
 	if (a.version === b.version) {
 		return 0;
 	}
@@ -12,7 +11,7 @@ function sortByVersion(a, b) {
 	return semver.lt(a.version, b.version) ? -1 : +1;
 }
 
-function getVersions(codemods) {
+export function getVersions(codemods) {
 	const versionsFromCodemods = codemods.sort(sortByVersion).map(codemod => codemod.version);
 	const uniqueVersions = uniq(versionsFromCodemods);
 	const firstVersion = {
@@ -27,7 +26,7 @@ function getVersions(codemods) {
 	return [firstVersion].concat(versionsFromCodemods).concat(lastVersion);
 }
 
-function selectScripts(codemods, currentVersion, nextVersion) {
+export function selectScripts(codemods, currentVersion, nextVersion) {
 	const semverToRespect = `>${currentVersion} <=${nextVersion}`;
 
 	const scripts = codemods
@@ -36,9 +35,3 @@ function selectScripts(codemods, currentVersion, nextVersion) {
 
 	return flatten(scripts).map(script => path.join(__dirname, script));
 }
-
-module.exports = {
-	sortByVersion,
-	getVersions,
-	selectScripts
-};

@@ -32,6 +32,7 @@
   ],
   "dependencies": {
     "arrify": "^1.0.1",
+    "execa": "^0.4.0",
     "globby": "^4.0.0",
     "inquirer": "^1.0.2",
     "is-git-clean": "^1.0.0",
@@ -58,7 +59,10 @@
   },
   "babel": {
     "only": [
-      "lib/**"
+      "lib/**",
+      "cli.js",
+      "cli-utils.js",
+      "test/_helpers.js"
     ],
     "sourceMaps": "inline"
   },

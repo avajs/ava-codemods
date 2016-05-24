@@ -1,4 +1,3 @@
-'use strict';
 const jscodeshift = require('jscodeshift');
 
 function noop() {}

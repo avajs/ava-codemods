@@ -1,29 +1,28 @@
 #!/usr/bin/env node
-'use strict';
-global.Promise = require('pinkie-promise');
-const childProcess = require('child_process');
-const meow = require('meow');
-const updateNotifier = require('update-notifier');
-const arrify = require('arrify');
-const globby = require('globby');
-const pkgConf = require('pkg-conf');
-const inquirer = require('inquirer');
-const assign = require('lodash.assign');
-const npmRunPath = require('npm-run-path');
-const isGitClean = require('is-git-clean');
-const utils = require('./cli-utils');
-const codemods = require('./codemods.json');
+global.Promise = Promise;
+import execa from 'execa';
+import meow from 'meow';
+import updateNotifier from 'update-notifier';
+import arrify from 'arrify';
+import globby from 'globby';
+import pkgConf from 'pkg-conf';
+import inquirer from 'inquirer';
+import assign from 'lodash.assign';
+import npmRunPath from 'npm-run-path';
+import isGitClean from 'is-git-clean';
+import * as utils from './cli-utils';
+import codemods from './codemods.json';
 
 function runScripts(scripts, files) {
-	const spawnOptions = {
+	const spawnOptions = Object.assign({}, {
 		env: assign({}, process.env, {PATH: npmRunPath({cwd: __dirname})}),
 		stdio: 'inherit'
-	};
+	});
 
 	let result;
 
 	scripts.forEach(script => {
-		result = childProcess.spawnSync('jscodeshift', ['-t', script].concat(files), spawnOptions);
+		result = execa.sync('jscodeshift', ['-t', script].concat(files), spawnOptions);
 
 		if (result.error) {
 			throw result.error;
@@ -31,16 +30,16 @@ function runScripts(scripts, files) {
 	});
 }
 
-const cli = meow([
-	'Usage',
-	'  $ ava-codemods [<file|glob> ...]',
-	'',
-	'Options',
-	'  --force, -f    Bypass safety checks and forcibly run codemods',
-	'',
-	'Available upgrades',
-	'  - 0.13.x → 0.14.x'
-], {
+const cli = meow(`
+	Usage
+		$ ava-codemods [<file|glob> ...]
+
+	Options
+		--force, -f    Bypass safety checks and forcibly run codemods
+
+	Available upgrades
+		- 0.13.x → 0.14.x
+`, {
 	boolean: ['force'],
 	string: ['_'],
 	alias: {
@@ -56,19 +55,19 @@ let errorMessage = 'Unable to determine if git directory is clean';
 try {
 	clean = isGitClean.sync();
 	errorMessage = 'Git directory is not clean';
-} catch (e) {
+} catch (err) {
 }
 
 const ENSURE_BACKUP_MESSAGE = 'Ensure you have a backup of your tests or commit the latest changes before continuing.';
 
 if (!clean) {
 	if (cli.flags.force) {
-		console.log(`WARNING: ${errorMessage}. Forcibly continuing.`);
-		console.log(ENSURE_BACKUP_MESSAGE);
+		console.log(`WARNING: ${errorMessage}. Forcibly continuing.`, ENSURE_BACKUP_MESSAGE);
 	} else {
-		console.log(`ERROR: ${errorMessage}. Refusing to continue.`);
-		console.log(ENSURE_BACKUP_MESSAGE);
-		console.log('You may use the --force flag to override this safety check.');
+		console.log(`
+			ERROR: ${errorMessage}. Refusing to continue.`,
+			ENSURE_BACKUP_MESSAGE,
+			'You may use the --force flag to override this safety check.');
 		process.exit(1);
 	}
 }
@@ -96,9 +95,7 @@ const questions = [{
 	message: 'On which files should the codemods be applied?',
 	default: (avaConf.files && arrify(avaConf.files).join(' ')) || defaultFiles,
 	when: !cli.input.length,
-	filter: files => {
-		return files.trim().split(/\s+/).filter(v => v);
-	}
+	filter: files => files.trim().split(/\s+/).filter(v => v)
 }];
 
 inquirer.prompt(questions, answers => {
