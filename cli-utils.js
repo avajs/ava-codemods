@@ -1,10 +1,9 @@
-'use strict';
-var path = require('path');
-var semver = require('semver');
-var uniq = require('lodash.uniq');
-var flatten = require('lodash.flatten');
+const path = require('path');
+const semver = require('semver');
+const uniq = require('lodash.uniq');
+const flatten = require('lodash.flatten');
 
-function sortByVersion(a, b) {
+export function sortByVersion(a, b) {
 	if (a.version === b.version) {
 		return 0;
 	}
@@ -12,16 +11,14 @@ function sortByVersion(a, b) {
 	return semver.lt(a.version, b.version) ? -1 : +1;
 }
 
-function getVersions(codemods) {
-	var versionsFromCodemods = codemods.sort(sortByVersion).map(function (codemod) {
-		return codemod.version;
-	});
-	var uniqueVersions = uniq(versionsFromCodemods);
-	var firstVersion = {
-		name: 'older than ' + uniqueVersions.sort(sortByVersion)[0],
+export function getVersions(codemods) {
+	const versionsFromCodemods = codemods.sort(sortByVersion).map(codemod => codemod.version);
+	const uniqueVersions = uniq(versionsFromCodemods);
+	const firstVersion = {
+		name: `older than ${uniqueVersions.sort(sortByVersion)[0]}`,
 		value: '0.0.0'
 	};
-	var lastVersion = {
+	const lastVersion = {
 		name: 'latest',
 		value: '9999.9999.9999'
 	};
@@ -29,22 +26,12 @@ function getVersions(codemods) {
 	return [firstVersion].concat(versionsFromCodemods).concat(lastVersion);
 }
 
-function selectScripts(codemods, currentVersion, nextVersion) {
-	var semverToRespect = '>' + currentVersion + ' <=' + nextVersion;
+export function selectScripts(codemods, currentVersion, nextVersion) {
+	const semverToRespect = `>${currentVersion} <=${nextVersion}`;
 
-	var scripts = codemods.filter(function (codemod) {
-		return semver.satisfies(codemod.version, semverToRespect);
-	}).map(function (codemod) {
-		return codemod.scripts;
-	});
+	const scripts = codemods
+	.filter(codemod => semver.satisfies(codemod.version, semverToRespect))
+	.map(codemod => codemod.scripts);
 
-	return flatten(scripts).map(function (script) {
-		return path.join(__dirname, script);
-	});
+	return flatten(scripts).map(script => path.join(__dirname, script));
 }
-
-module.exports = {
-	sortByVersion: sortByVersion,
-	getVersions: getVersions,
-	selectScripts: selectScripts
-};

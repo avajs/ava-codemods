@@ -1,29 +1,28 @@
 #!/usr/bin/env node
-'use strict';
-global.Promise = require('pinkie-promise');
-var childProcess = require('child_process');
-var meow = require('meow');
-var updateNotifier = require('update-notifier');
-var arrify = require('arrify');
-var globby = require('globby');
-var pkgConf = require('pkg-conf');
-var inquirer = require('inquirer');
-var assign = require('lodash.assign');
-var npmRunPath = require('npm-run-path');
-var isGitClean = require('is-git-clean');
-var utils = require('./cli-utils');
-var codemods = require('./codemods.json');
+global.Promise = Promise;
+import execa from 'execa';
+import meow from 'meow';
+import updateNotifier from 'update-notifier';
+import arrify from 'arrify';
+import globby from 'globby';
+import pkgConf from 'pkg-conf';
+import inquirer from 'inquirer';
+import assign from 'lodash.assign';
+import npmRunPath from 'npm-run-path';
+import isGitClean from 'is-git-clean';
+import * as utils from './cli-utils';
+import codemods from './codemods.json';
 
 function runScripts(scripts, files) {
-	var spawnOptions = {
+	const spawnOptions = Object.assign({}, {
 		env: assign({}, process.env, {PATH: npmRunPath({cwd: __dirname})}),
 		stdio: 'inherit'
-	};
+	});
 
-	var result;
+	let result;
 
-	scripts.forEach(function (script) {
-		result = childProcess.spawnSync('jscodeshift', ['-t', script].concat(files), spawnOptions);
+	scripts.forEach(script => {
+		result = execa.sync('jscodeshift', ['-t', script].concat(files), spawnOptions);
 
 		if (result.error) {
 			throw result.error;
@@ -31,16 +30,16 @@ function runScripts(scripts, files) {
 	});
 }
 
-var cli = meow([
-	'Usage',
-	'  $ ava-codemods [<file|glob> ...]',
-	'',
-	'Options',
-	'  --force, -f    Bypass safety checks and forcibly run codemods',
-	'',
-	'Available upgrades',
-	'  - 0.13.x → 0.14.x'
-], {
+const cli = meow(`
+	Usage
+		$ ava-codemods [<file|glob> ...]
+
+	Options
+		--force, -f    Bypass safety checks and forcibly run codemods
+
+	Available upgrades
+		- 0.13.x → 0.14.x
+`, {
 	boolean: ['force'],
 	string: ['_'],
 	alias: {
@@ -51,36 +50,36 @@ var cli = meow([
 
 updateNotifier({pkg: cli.pkg}).notify();
 
-var clean = false;
-var errorMessage = 'Unable to determine if git directory is clean';
+let clean = false;
+let errorMessage = 'Unable to determine if git directory is clean';
 try {
 	clean = isGitClean.sync();
 	errorMessage = 'Git directory is not clean';
-} catch (e) {
+} catch (err) {
 }
 
-var ENSURE_BACKUP_MESSAGE = 'Ensure you have a backup of your tests or commit the latest changes before continuing.';
+const ENSURE_BACKUP_MESSAGE = 'Ensure you have a backup of your tests or commit the latest changes before continuing.';
 
 if (!clean) {
 	if (cli.flags.force) {
-		console.log('WARNING: ' + errorMessage + '. Forcibly continuing.');
-		console.log(ENSURE_BACKUP_MESSAGE);
+		console.log(`WARNING: ${errorMessage}. Forcibly continuing.`, ENSURE_BACKUP_MESSAGE);
 	} else {
-		console.log('ERROR: ' + errorMessage + '. Refusing to continue.');
-		console.log(ENSURE_BACKUP_MESSAGE);
-		console.log('You may use the --force flag to override this safety check.');
+		console.log(`
+			ERROR: ${errorMessage}. Refusing to continue.`,
+			ENSURE_BACKUP_MESSAGE,
+			'You may use the --force flag to override this safety check.');
 		process.exit(1);
 	}
 }
 
 codemods.sort(utils.sortByVersion);
 
-var versions = utils.getVersions(codemods);
+const versions = utils.getVersions(codemods);
 
-var avaConf = pkgConf.sync('ava');
-var defaultFiles = 'test.js test-*.js test/**/*.js **/__tests__/**/*.js **/*.test.js';
+const avaConf = pkgConf.sync('ava');
+const defaultFiles = 'test.js test-*.js test/**/*.js **/__tests__/**/*.js **/*.test.js';
 
-var questions = [{
+const questions = [{
 	type: 'list',
 	name: 'currentVersion',
 	message: 'What version of AVA are you currently using?',
@@ -96,21 +95,17 @@ var questions = [{
 	message: 'On which files should the codemods be applied?',
 	default: (avaConf.files && arrify(avaConf.files).join(' ')) || defaultFiles,
 	when: !cli.input.length,
-	filter: function (files) {
-		return files.trim().split(/\s+/).filter(function (v) {
-			return v;
-		});
-	}
+	filter: files => files.trim().split(/\s+/).filter(v => v)
 }];
 
-inquirer.prompt(questions, function (answers) {
-	var files = answers.files || cli.input;
+inquirer.prompt(questions, answers => {
+	const files = answers.files || cli.input;
 
 	if (!files.length) {
 		return;
 	}
 
-	var scripts = utils.selectScripts(codemods, answers.currentVersion, answers.nextVersion);
+	const scripts = utils.selectScripts(codemods, answers.currentVersion, answers.nextVersion);
 
 	runScripts(scripts, globby.sync(files));
 });

@@ -32,6 +32,7 @@
   ],
   "dependencies": {
     "arrify": "^1.0.1",
+    "execa": "^0.4.0",
     "globby": "^4.0.0",
     "inquirer": "^1.0.2",
     "is-git-clean": "^1.0.0",
@@ -48,9 +49,25 @@
   },
   "devDependencies": {
     "ava": "^0.14.0",
+    "babel": "^5.8.38",
     "xo": "^0.15.1"
   },
+  "ava": {
+    "require": [
+      "babel/register"
+    ]
+  },
+  "babel": {
+    "only": [
+      "lib/**",
+      "cli.js",
+      "cli-utils.js",
+      "test/_helpers.js"
+    ],
+    "sourceMaps": "inline"
+  },
   "xo": {
+    "esnext": true,
     "rules": {
       "xo/filename-case": 0
     }
