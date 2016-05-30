@@ -32,13 +32,13 @@ function runScripts(scripts, files) {
 
 const cli = meow(`
 	Usage
-		$ ava-codemods [<file|glob> ...]
+	  $ ava-codemods [<file|glob> ...]
 
 	Options
-		--force, -f    Bypass safety checks and forcibly run codemods
+	  --force, -f    Bypass safety checks and forcibly run codemods
 
 	Available upgrades
-		- 0.13.x → 0.14.x
+	  - 0.13.x → 0.14.x
 `, {
 	boolean: ['force'],
 	string: ['_'],
@@ -55,8 +55,7 @@ let errorMessage = 'Unable to determine if git directory is clean';
 try {
 	clean = isGitClean.sync();
 	errorMessage = 'Git directory is not clean';
-} catch (err) {
-}
+} catch (err) {}
 
 const ENSURE_BACKUP_MESSAGE = 'Ensure you have a backup of your tests or commit the latest changes before continuing.';
 

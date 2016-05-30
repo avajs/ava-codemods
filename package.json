@@ -42,13 +42,12 @@
     "lodash.uniq": "^4.2.1",
     "meow": "^3.7.0",
     "npm-run-path": "^1.0.0",
-    "pinkie-promise": "^2.0.0",
     "pkg-conf": "^1.1.2",
     "semver": "^5.1.0",
     "update-notifier": "^0.7.0"
   },
   "devDependencies": {
-    "ava": "^0.14.0",
+    "ava": "^0.15.1",
     "babel": "^5.8.38",
     "xo": "^0.15.1"
   },

@@ -8,7 +8,7 @@ export function sortByVersion(a, b) {
 		return 0;
 	}
 
-	return semver.lt(a.version, b.version) ? -1 : +1;
+	return semver.lt(a.version, b.version) ? -1 : 1;
 }
 
 export function getVersions(codemods) {

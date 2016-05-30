@@ -1,9 +1,7 @@
-const jscodeshift = require('jscodeshift');
-
-function noop() {}
+import jscodeshift from 'jscodeshift';
 
 // simulate the fileInfo parameter
-function fileInfo(path, source) {
+export function fileInfo(path, source) {
 	if (!source) {
 		source = path;
 		path = 'test.js';
@@ -16,24 +14,17 @@ function fileInfo(path, source) {
 }
 
 // simulate the jscodeshift api
-function api() {
+export function api() {
 	return {
 		jscodeshift,
-		stats: noop
+		stats: () => {}
 	};
 }
 
-function runPlugin(plugin, path, source) {
+export function runPlugin(plugin, path, source) {
 	return plugin(fileInfo(path, source), api());
 }
 
-function wrapPlugin(plugin) {
-	return function (path, source) {
-		return runPlugin(plugin, path, source);
-	};
+export function wrapPlugin(plugin) {
+	return (path, source) => runPlugin(plugin, path, source);
 }
-
-module.exports.fileInfo = fileInfo;
-module.exports.api = api;
-module.exports.runPlugin = runPlugin;
-module.exports.wrapPlugin = wrapPlugin;
