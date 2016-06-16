@@ -33,7 +33,7 @@
   "dependencies": {
     "arrify": "^1.0.1",
     "execa": "^0.4.0",
-    "globby": "^4.0.0",
+    "globby": "^5.0.0",
     "inquirer": "^1.0.2",
     "is-git-clean": "^1.0.0",
     "jscodeshift": "^0.3.19",
@@ -44,12 +44,12 @@
     "npm-run-path": "^1.0.0",
     "pkg-conf": "^1.1.2",
     "semver": "^5.1.0",
-    "update-notifier": "^0.7.0"
+    "update-notifier": "^1.0.0"
   },
   "devDependencies": {
     "ava": "^0.15.1",
     "babel": "^5.8.38",
-    "xo": "^0.15.1"
+    "xo": "^0.16.0"
   },
   "ava": {
     "require": [
