@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-global.Promise = Promise;
 import execa from 'execa';
 import meow from 'meow';
 import updateNotifier from 'update-notifier';
