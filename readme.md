@@ -29,6 +29,7 @@ $ ava-codemods --help
 
   Available upgrades
     - 0.13.x → 0.14.x
+    - 0.16.x → 0.17.x
 ```
 
 Simply run `ava-codemods` in your terminal and answer a few questions. You can pass a filename directly to the CLI. If you do not, you will be prompted for one.
@@ -45,6 +46,8 @@ Ensure you have a backup of your tests or commit the latest changes before runni
 - Renaming `t.same()` to `t.deepEqual()`
 - Renaming `t.notSame()` to `t.notDeepEqual()`
 
+### Upgrading to 0.17.x
+- Renaming `t.error()` to `t.ifError()`
 
 ## License
 
