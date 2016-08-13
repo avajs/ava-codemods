@@ -5,5 +5,11 @@
 			"lib/ok-to-truthy.js",
 			"lib/same-to-deep-equal.js"
 		]
+	},
+	{
+		"version": "0.17.0",
+		"scripts": [
+			"lib/error-to-iferror.js"
+		]
 	}
 ]

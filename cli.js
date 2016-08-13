@@ -37,6 +37,7 @@ const cli = meow(`
 	  --force, -f    Bypass safety checks and forcibly run codemods
 
 	Available upgrades
+	  - 0.16.x → 0.17.x
 	  - 0.13.x → 0.14.x
 `, {
 	boolean: ['force'],

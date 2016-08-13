@@ -28,6 +28,7 @@ $ ava-codemods --help
     --force, -f    Bypass safety checks and forcibly run codemods
 
   Available upgrades
+    - 0.16.x → 0.17.x
     - 0.13.x → 0.14.x
 ```
 
@@ -37,6 +38,10 @@ Ensure you have a backup of your tests or commit the latest changes before runni
 
 
 ## Supported codemods
+
+### Upgrading to 0.17.x
+
+- Renaming `t.error()` to `t.ifError()`
 
 ### Upgrading to 0.14.x
 
