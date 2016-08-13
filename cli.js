@@ -10,7 +10,7 @@ import assign from 'lodash.assign';
 import npmRunPath from 'npm-run-path';
 import isGitClean from 'is-git-clean';
 import * as utils from './cli-utils';
-import codemods from './codemods.json';
+import codemods from './codemods';
 
 function runScripts(scripts, files) {
 	const spawnOptions = Object.assign({}, {
