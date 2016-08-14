@@ -4,13 +4,13 @@ import {wrapPlugin} from './_helpers';
 
 const wrapped = wrapPlugin(plugin);
 
-function tester(input, expected) {
-	test(input, t => t.is(wrapped(input), expected));
+function tester(t, input, expected) {
+	t.is(wrapped(input), expected);
 }
 
-tester('t.same(foo, bar)', 't.deepEqual(foo, bar)');
-tester('t.notSame(foo, bar)', 't.notDeepEqual(foo, bar)');
-tester(`
+test('same >> deepEqual', tester, 't.same(foo, bar)', 't.deepEqual(foo, bar)');
+test('notSame >> notDeepEqual', tester, 't.notSame(foo, bar)', 't.notDeepEqual(foo, bar)');
+test('full test expression with same >> deepEqual', tester, `
 test(t => {
 		t.same(fn.sync('1.tmp', {cwd: t.context.tmp}), [path.join(t.context.tmp, '1.tmp')]);
 });
