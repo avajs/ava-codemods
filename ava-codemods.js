@@ -6,22 +6,18 @@ import arrify from 'arrify';
 import globby from 'globby';
 import pkgConf from 'pkg-conf';
 import inquirer from 'inquirer';
-import assign from 'lodash.assign';
 import npmRunPath from 'npm-run-path';
-import isGitClean from 'is-git-clean';
 import * as utils from './cli-utils';
 import codemods from './codemods';
 
 function runScripts(scripts, files) {
-	const spawnOptions = Object.assign({}, {
-		env: assign({}, process.env, {PATH: npmRunPath({cwd: __dirname})}),
+	const spawnOptions = {
+		env: Object.assign({}, process.env, {PATH: npmRunPath({cwd: __dirname})}),
 		stdio: 'inherit'
-	});
-
-	let result;
+	};
 
 	scripts.forEach(script => {
-		result = execa.sync('jscodeshift', ['-t', script].concat(files), spawnOptions);
+		const result = execa.sync('jscodeshift', ['-t', script].concat(files), spawnOptions);
 
 		if (result.error) {
 			throw result.error;
@@ -50,25 +46,8 @@ const cli = meow(`
 
 updateNotifier({pkg: cli.pkg}).notify();
 
-let clean = false;
-let errorMessage = 'Unable to determine if git directory is clean';
-try {
-	clean = isGitClean.sync(process.cwd(), {files: ['!package.json']});
-	errorMessage = 'Git directory is not clean';
-} catch (err) {}
-
-const ENSURE_BACKUP_MESSAGE = 'Ensure you have a backup of your tests or commit the latest changes before continuing.';
-
-if (!clean) {
-	if (cli.flags.force) {
-		console.log(`WARNING: ${errorMessage}. Forcibly continuing.`, ENSURE_BACKUP_MESSAGE);
-	} else {
-		console.log(`
-			ERROR: ${errorMessage}. Refusing to continue.`,
-			ENSURE_BACKUP_MESSAGE,
-			'You may use the --force flag to override this safety check.');
-		process.exit(1);
-	}
+if (!utils.checkGitStatus(cli.flags.force)) {
+	process.exit(1);
 }
 
 codemods.sort(utils.sortByVersion);
