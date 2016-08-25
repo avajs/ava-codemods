@@ -51,6 +51,7 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "babel": "^5.8.38",
+    "jscodeshift-ava-tester": "^1.1.0",
     "xo": "^0.16.0"
   },
   "ava": {
