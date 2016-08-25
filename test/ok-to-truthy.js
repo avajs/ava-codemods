@@ -5,7 +5,7 @@ import plugin from '../lib/ok-to-truthy';
 
 const {testChanged, testUnchanged} = testPlugin(jscodeshift, test, plugin);
 
-testChanged('t.ok(foo, bar)', 't.truthy(foo, bar)');
-testChanged('t.notOk(foo, bar)', 't.falsy(foo, bar)');
-testUnchanged('t.truthy(foo, bar)');
-testUnchanged('t.falsy(foo, bar)');
+testChanged('ok >> truthy', 't.ok(foo, bar)', 't.truthy(foo, bar)');
+testChanged('notOk >> falsy', 't.notOk(foo, bar)', 't.falsy(foo, bar)');
+testUnchanged('unchanged truthy', 't.truthy(foo, bar)');
+testUnchanged('unchanged falsy', 't.falsy(foo, bar)');
