@@ -53,7 +53,7 @@ updateNotifier({pkg: cli.pkg}).notify();
 let clean = false;
 let errorMessage = 'Unable to determine if git directory is clean';
 try {
-	clean = isGitClean.sync();
+	clean = isGitClean.sync(process.cwd(), {files: ['!package.json']});
 	errorMessage = 'Git directory is not clean';
 } catch (err) {}
 
