@@ -9,7 +9,10 @@
     "email": "james@talmage.io",
     "url": "github.com/jamestalmage"
   },
-  "bin": "cli.js",
+  "bin": {
+    "ava-codemods": "ava-codemods.js",
+    "tape-to-ava": "tape-to-ava.js"
+  },
   "engines": {
     "node": ">=4"
   },
@@ -17,8 +20,9 @@
     "test": "xo && ava"
   },
   "files": [
-    "cli.js",
+    "ava-codemods.js",
     "cli-utils.js",
+    "tape-to-ava.js",
     "codemods.json",
     "lib"
   ],
@@ -39,7 +43,6 @@
     "inquirer": "^1.0.2",
     "is-git-clean": "^1.1.0",
     "jscodeshift": "^0.3.19",
-    "lodash.assign": "^4.0.7",
     "lodash.flatten": "^4.1.1",
     "lodash.uniq": "^4.2.1",
     "meow": "^3.7.0",
@@ -62,8 +65,9 @@
   "babel": {
     "only": [
       "lib/**",
-      "cli.js",
+      "ava-codemods.js",
       "cli-utils.js",
+      "tape-to-ava.js",
       "test/_helpers.js"
     ],
     "sourceMaps": "inline"
