@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import path from 'path';
-import execa from 'execa';
-import meow from 'meow';
-import updateNotifier from 'update-notifier';
-import * as utils from './cli-utils';
+'use strict';
+const path = require('path');
+const execa = require('execa');
+const meow = require('meow');
+const updateNotifier = require('update-notifier');
+const utils = require('./cli-utils');
 
 const PATH_TRANFORMER = path.join(__dirname, 'lib', 'tape.js');
 
@@ -23,28 +24,25 @@ function executeTransformation(files, flags) {
 
 	console.log(`Executing command: jscodeshift ${args.join(' ')}`);
 
-	const result = execa.sync('jscodeshift', args, spawnOptions);
+	const result = execa.sync(require.resolve('.bin/jscodeshift'), args, spawnOptions);
 	if (result.error) {
 		throw result.error;
 	}
 }
 
-const cli = meow(
-	{
-		description: 'Codemod to change test runner from Tape to AVA',
-		help: `
+const cli = meow({
+	description: 'Codemod to change test runner from Tape to AVA',
+	help: `
 	Usage
 	  $ tape-to-ava <path> [options]
 
 	path	Files or directory to transform. Can be a glob like src/**.test.js
 
 	Options
-	  --force, -f	Bypass Git safety checks and forcibly run codemods
-	  --dry, -d	Dry run (no changes are made to files)
-	  --parser	The parser to use for parsing your source files (babel | babylon | flow)  [babel]
-	`
-	},
-	{
+	  --force, -f    Bypass Git safety checks and forcibly run codemods
+	  --dry, -d      Dry run (no changes are made to files)
+	  --parser       Parser to use for parsing your source files (babel | babylon | flow)  [babel]
+	`}, {
 		boolean: ['force', 'dry'],
 		string: ['_'],
 		alias: {

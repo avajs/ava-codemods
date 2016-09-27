@@ -1,14 +1,15 @@
 #!/usr/bin/env node
-import execa from 'execa';
-import meow from 'meow';
-import updateNotifier from 'update-notifier';
-import arrify from 'arrify';
-import globby from 'globby';
-import pkgConf from 'pkg-conf';
-import inquirer from 'inquirer';
-import npmRunPath from 'npm-run-path';
-import * as utils from './cli-utils';
-import codemods from './codemods';
+'use strict';
+const execa = require('execa');
+const meow = require('meow');
+const updateNotifier = require('update-notifier');
+const arrify = require('arrify');
+const globby = require('globby');
+const pkgConf = require('pkg-conf');
+const inquirer = require('inquirer');
+const npmRunPath = require('npm-run-path');
+const utils = require('./cli-utils');
+const codemods = require('./codemods');
 
 function runScripts(scripts, files) {
 	const spawnOptions = {
@@ -17,7 +18,7 @@ function runScripts(scripts, files) {
 	};
 
 	scripts.forEach(script => {
-		const result = execa.sync('jscodeshift', ['-t', script].concat(files), spawnOptions);
+		const result = execa.sync(require.resolve('.bin/jscodeshift'), ['-t', script].concat(files), spawnOptions);
 
 		if (result.error) {
 			throw result.error;
