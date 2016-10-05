@@ -1,6 +1,6 @@
 {
   "name": "ava-codemods",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Codemods to simplify upgrading AVA versions",
   "license": "MIT",
   "repository": "avajs/ava-codemods",
