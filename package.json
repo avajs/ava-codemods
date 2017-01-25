@@ -42,7 +42,7 @@
     "globby": "^6.0.0",
     "inquirer": "^1.0.2",
     "is-git-clean": "^1.1.0",
-    "jscodeshift": "^0.3.19",
+    "jscodeshift": "0.3.19",
     "lodash.flatten": "^4.1.1",
     "lodash.uniq": "^4.2.1",
     "meow": "^3.7.0",
